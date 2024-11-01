@@ -5,6 +5,7 @@ import { env } from "./utils/config";
 import { APIError } from "./utils/error";
 import { createDBConnection } from "./utils/db";
 import { authRouter } from "./modules/auth/router";
+import { bookRouter } from "./modules/book/router";
 
 createDBConnection()
   .then(() => {
@@ -37,6 +38,9 @@ app.get("/", (req: Request, res: Response, next: NextFunction) => {
 
 // authentication routes
 app.use("/api/auth", authRouter);
+
+// book router
+app.use("/api/books", bookRouter);
 
 app.use((error: APIError, req: Request, res: Response, next: NextFunction) => {
   console.log(error);

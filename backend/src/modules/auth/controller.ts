@@ -11,7 +11,7 @@ export async function registerController(
 ) {
   try {
     const { success, error, data } = userRegisterSchema.safeParse(req.body);
-    console.log("data:", data);
+    // console.log("data:", data);
     if (!success) {
       const errors = error.flatten().fieldErrors;
       res.status(400).json({
