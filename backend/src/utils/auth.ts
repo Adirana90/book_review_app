@@ -21,6 +21,7 @@ export type TTokenPayload = {
   id: string;
   username: string;
   email: string;
+  role: string;
 };
 
 const secretKey = env.JWT_SECRET;

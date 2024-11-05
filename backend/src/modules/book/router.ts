@@ -4,10 +4,11 @@ import {
   getAllBookController,
   getBookByIdController,
 } from "./controller";
+import { checkAuth, permitAdmin } from "../auth/controller";
 
 function createBookRouter() {
   const router = Router();
-  router.post("/add", addBookController);
+  router.post("/add", checkAuth, permitAdmin, addBookController);
   router.get("/", getAllBookController);
   router.get("/:id", getBookByIdController);
   return router;

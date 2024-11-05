@@ -4,7 +4,9 @@ import {
   loginController,
   logoutController,
   meController,
+  permitAdmin,
   registerController,
+  updateRoleController,
 } from "./controller";
 
 function createAuthRouter() {
@@ -13,6 +15,7 @@ function createAuthRouter() {
   router.post("/login", loginController);
   router.get("/me", checkAuth, meController);
   router.post("/logout", checkAuth, logoutController);
+  router.post("/update-role", checkAuth, permitAdmin, updateRoleController);
   return router;
 }
 

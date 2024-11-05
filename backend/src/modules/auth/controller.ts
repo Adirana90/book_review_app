@@ -1,6 +1,11 @@
 import { NextFunction, Request, Response } from "express";
 import { userLoginSchema, userRegisterSchema } from "./validation";
-import { createUserservice, getUserById, loginService } from "./service";
+import {
+  createUserservice,
+  getUserById,
+  loginService,
+  updateUserRoleservice,
+} from "./service";
 import { APIError } from "../../utils/error";
 import { TTokenPayload, verifyToken } from "../../utils/auth";
 
@@ -15,7 +20,7 @@ export async function registerController(
     if (!success) {
       const errors = error.flatten().fieldErrors;
       res.status(400).json({
-        message: "Data not found",
+        message: "Invalid request",
         data: null,
         isSuccess: false,
         errors: errors,
@@ -31,6 +36,7 @@ export async function registerController(
         id: userData._id,
         email: userData.email,
         username: userData.username,
+        role: userData.role,
       },
     });
   } catch (e) {
@@ -108,6 +114,7 @@ export async function meController(
         id: user._id,
         username: user.username,
         email: user.email,
+        role: user.role,
       },
     });
   } catch (e) {
@@ -197,6 +204,49 @@ export async function checkAuth(
     id: payload.id,
     username: payload.username,
     email: payload.email,
+    role: payload.role,
   };
   next();
+}
+
+export async function permitAdmin(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  if (req.user.role !== "admin") {
+    res.status(401).json({
+      message: "Access denial, You need to be admin to get access",
+    });
+    return;
+  }
+  next();
+}
+
+export async function updateRoleController(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const role = req.body.role;
+    const userId = req.body.userId;
+
+    const userData = await updateUserRoleservice({
+      userId: userId || "",
+      role: role || "user",
+    });
+
+    res.status(200).json({
+      message: "role has been updated",
+      isSuccess: true,
+      data: null,
+    });
+  } catch (e) {
+    if (e instanceof APIError) {
+      next(e);
+    } else {
+      next(new APIError(500, (e as Error).message));
+    }
+  }
 }

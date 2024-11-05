@@ -4,7 +4,7 @@ import { UserModel } from "./model";
 import { TuserLoginSchema, TuserRegisterSchema } from "./validation";
 
 export async function createUserservice(input: TuserRegisterSchema) {
-  const { email, username, password } = input;
+  const { email, username, password, role } = input;
 
   const user = await UserModel.findOne({ email });
   if (user) {
@@ -17,6 +17,7 @@ export async function createUserservice(input: TuserRegisterSchema) {
     email,
     username,
     password: hashedPassword,
+    role,
   });
   await newUser.save();
 
@@ -24,7 +25,7 @@ export async function createUserservice(input: TuserRegisterSchema) {
 }
 
 export async function loginService(input: TuserLoginSchema) {
-  const { email, password } = input;
+  const { email, password, role } = input;
   const user = await UserModel.findOne({ email });
   if (!user) {
     throw APIError.unauthorized("Invalid username or password");
@@ -34,10 +35,15 @@ export async function loginService(input: TuserLoginSchema) {
   if (!isMatch) {
     throw APIError.unauthorized("Invalid username or password");
   }
+
+  if (user.role !== role) {
+    throw APIError.unauthorized("Invalid role");
+  }
   const token = generateToken({
     id: user._id.toString(),
     username: user.username,
     email: user.email,
+    role: user.role,
   });
 
   return {
@@ -45,6 +51,7 @@ export async function loginService(input: TuserLoginSchema) {
       id: user._id.toString(),
       username: user.username,
       email: user.email,
+      role: user.role,
     },
     token,
   };
@@ -57,4 +64,27 @@ export async function getUserById(id: string) {
   }
 
   return user;
+}
+
+export async function updateUserRoleservice(input: {
+  role: string;
+  userId: string;
+}) {
+  const { role, userId } = input;
+
+  const user = await UserModel.findOne({ id: userId });
+  if (!user) {
+    throw APIError.notFound("user not found");
+  }
+
+  await UserModel.updateOne(
+    {
+      id: userId,
+    },
+    {
+      role: role,
+    }
+  );
+
+  return true;
 }
