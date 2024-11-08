@@ -11,6 +11,7 @@ function createBookRouter() {
   router.post("/add", checkAuth, permitAdmin, addBookController);
   router.get("/", getAllBookController);
   router.get("/:id", getBookByIdController);
+
   return router;
 }
 

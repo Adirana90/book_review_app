@@ -25,7 +25,7 @@ export async function createUserservice(input: TuserRegisterSchema) {
 }
 
 export async function loginService(input: TuserLoginSchema) {
-  const { email, password, role } = input;
+  const { email, password } = input;
   const user = await UserModel.findOne({ email });
   if (!user) {
     throw APIError.unauthorized("Invalid username or password");
@@ -36,9 +36,9 @@ export async function loginService(input: TuserLoginSchema) {
     throw APIError.unauthorized("Invalid username or password");
   }
 
-  if (user.role !== role) {
-    throw APIError.unauthorized("Invalid role");
-  }
+  //   if (user.role !== role) {
+  //     throw APIError.unauthorized("Invalid role");
+  //   }
   const token = generateToken({
     id: user._id.toString(),
     username: user.username,
@@ -72,19 +72,16 @@ export async function updateUserRoleservice(input: {
 }) {
   const { role, userId } = input;
 
-  const user = await UserModel.findOne({ id: userId });
+  const user = await UserModel.findOne({ _id: userId });
   if (!user) {
     throw APIError.notFound("user not found");
   }
 
-  await UserModel.updateOne(
-    {
-      id: userId,
+  await UserModel.findByIdAndUpdate(userId, {
+    $set: {
+      role,
     },
-    {
-      role: role,
-    }
-  );
+  });
 
   return true;
 }

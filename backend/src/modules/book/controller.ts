@@ -1,12 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { APIError } from "../../utils/error";
-import { addBookSchema, reviewUserSchema } from "./validation";
-import {
-  bookService,
-  getAllBookService,
-  getBookByIdService,
-  submitReviewService,
-} from "./service";
+import { addBookSchema } from "./validation";
+import { bookService, getAllBookService, getBookByIdService } from "./service";
 import { log } from "console";
 
 export async function addBookController(
@@ -79,7 +74,7 @@ export async function getBookByIdController(
 ) {
   try {
     const id = req.params.id;
-    console.log("id:", id);
+    // console.log("id:", id);
 
     if (!id) {
       res.status(400).json({
@@ -91,7 +86,7 @@ export async function getBookByIdController(
     }
 
     const result = await getBookByIdService(id);
-    console.log("result:", result);
+    // console.log("result:", result);
 
     res.status(200).json({
       message: "book found successfully",
@@ -106,33 +101,3 @@ export async function getBookByIdController(
     }
   }
 }
-
-// export async function submitReviewController(
-//   req: Request,
-//   res: Response,
-//   next: NextFunction
-// ) {
-//   const body = req.body;
-//   const { success, error, data } = reviewUserSchema.safeParse(body);
-//   if(!success){
-//     const errors = error.flatten().fieldErrors;
-//       res.status(400).json({
-//         message: "Invalid request",
-//         data: null,
-//         isSuccess: false,
-//         errors: errors,
-//       });
-//       return;
-//   }
-
-//   const review = await submitReviewService(data)
-
-//   res.status(200).json({
-//     message: "your account has been created successifully",
-//     isSuccess: true,
-//     data: {
-//       id: review._id,
-//       userId: review.userId,
-//     },
-//   });
-// }

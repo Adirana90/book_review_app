@@ -55,6 +55,7 @@ export async function loginController(
 ) {
   try {
     const body = req.body;
+    console.log("body:", body);
     const { success, error, data } = userLoginSchema.safeParse(body);
     console.log("data:", data);
     if (!success) {
@@ -107,6 +108,8 @@ export async function meController(
     }
 
     const user = await getUserById(req.user.id);
+    console.log("user", user);
+    
     res.status(200).json({
       message: "User retrieved successfully",
       isSuccess: true,
