@@ -3,6 +3,7 @@ import { APIError } from "../../utils/error";
 import { reviewUserSchema } from "./validation";
 import {
   deleteReviewServices,
+  getReviewsByBookIdService,
   submitReviewService,
   updateReviewServices,
 } from "./service";
@@ -108,6 +109,29 @@ export async function deleteReviewController(
       next(e);
     } else {
       next(new APIError(500, (e as Error).message));
+    }
+  }
+}
+
+export async function getReviewsByBookIdController(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const bookId = req.params.bookId;
+
+    const reviews = await getReviewsByBookIdService(bookId);
+    res.status(200).json({
+      message: "Reviews retrieved successfully",
+      isSuccess: true,
+      data: reviews,
+    });
+  } catch (error) {
+    if (error instanceof APIError) {
+      next(error);
+    } else {
+      next(new APIError(500, (error as Error).message));
     }
   }
 }

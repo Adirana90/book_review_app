@@ -1,16 +1,20 @@
 import { Router } from "express";
 import {
   addBookController,
+  deleteBookController,
   getAllBookController,
   getBookByIdController,
+  updateBookController,
 } from "./controller";
-import { checkAuth, permitAdmin } from "../auth/controller";
+import { checkAuth, permitAdmin } from "../middleware";
 
 function createBookRouter() {
   const router = Router();
-  router.post("/add", checkAuth, permitAdmin, addBookController);
   router.get("/", getAllBookController);
   router.get("/:id", getBookByIdController);
+  router.post("/add", checkAuth, permitAdmin, addBookController);
+  router.post("/:bookId", checkAuth, permitAdmin, updateBookController);
+  router.delete("/:bookId", checkAuth, permitAdmin, deleteBookController);
 
   return router;
 }

@@ -30,3 +30,31 @@ export async function getBookByIdService(_id: string) {
   const book = await bookModel.findById(_id);
   return book;
 }
+
+export async function updateBookServices(
+  bookId: string,
+  input: TaddBookSchema
+) {
+  const { title, author, description, genres, published_at } = input;
+  const book = await bookModel.findById(bookId);
+  if (!book) {
+    throw APIError.notFound("book does not exist");
+  }
+  book.title = title;
+  book.author = author;
+  book.description = description;
+  book.genres = genres;
+  book.published_at = published_at;
+
+  // await book.replaceOne({ _id: bookId });
+  await book.save();
+  return book;
+}
+
+export async function deleteBookServices(id: string) {
+  const book = await bookModel.findByIdAndDelete(id);
+  if (!book) {
+    throw APIError.notFound("book not found");
+  }
+  return book;
+}

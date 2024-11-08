@@ -1,10 +1,11 @@
 import { Router } from "express";
-import { checkAuth, permitAdmin } from "../auth/controller";
 import {
   deleteReviewController,
+  getReviewsByBookIdController,
   submitReviewController,
   updateReviewController,
 } from "./controller";
+import { checkAuth } from "../middleware";
 
 function createReviewRouter() {
   const router = Router();
@@ -12,6 +13,8 @@ function createReviewRouter() {
   router.post("/:bookId", checkAuth, submitReviewController);
   router.post("/update/:reviewId", checkAuth, updateReviewController);
   router.delete("/:reviewId", checkAuth, deleteReviewController);
+  router.get("/:bookId", getReviewsByBookIdController);
+
   return router;
 }
 

@@ -61,3 +61,10 @@ export async function deleteReviewServices(_id: string, ctx: TReviewCtx) {
   await reviewModel.deleteOne({ _id: _id });
   return review;
 }
+
+export async function getReviewsByBookIdService(bookId: string) {
+  const reviews = await reviewModel.find({
+    bookId,
+  });
+  return reviews;
+}

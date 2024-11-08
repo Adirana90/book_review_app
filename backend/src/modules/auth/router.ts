@@ -1,13 +1,12 @@
 import { Router } from "express";
 import {
-  checkAuth,
   loginController,
   logoutController,
   meController,
-  permitAdmin,
   registerController,
   updateRoleController,
 } from "./controller";
+import { checkAuth, permitAdmin } from "../middleware";
 
 function createAuthRouter() {
   const router = Router();
