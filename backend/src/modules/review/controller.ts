@@ -94,10 +94,12 @@ export async function deleteReviewController(
   try {
     const userId = req.user.id;
     const reviewId = req.params.reviewId;
+    const userRole = req.user.role;
 
     const review = await deleteReviewServices(reviewId, {
       userId,
       bookId: "",
+      userRole,
     });
     res.status(200).json({
       message: "Review delete successfully",

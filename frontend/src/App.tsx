@@ -1,10 +1,12 @@
 import "./App.css";
+import { RouterProvider } from "./router";
+import { QueryClientProvider } from "./query";
 
 function App() {
   return (
-    <div>
-      <h1>hello!!!!!</h1>
-    </div>
+    <QueryClientProvider>
+      <RouterProvider />
+    </QueryClientProvider>
   );
 }
 

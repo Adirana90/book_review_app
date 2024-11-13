@@ -1,5 +1,9 @@
 import { NextFunction, Request, Response } from "express";
-import { userLoginSchema, userRegisterSchema } from "./validation";
+import {
+  updateRoleSchema,
+  userLoginSchema,
+  userRegisterSchema,
+} from "./validation";
 import {
   createUserservice,
   getUserById,
@@ -55,9 +59,7 @@ export async function loginController(
 ) {
   try {
     const body = req.body;
-    console.log("body:", body);
     const { success, error, data } = userLoginSchema.safeParse(body);
-    console.log("data:", data);
     if (!success) {
       const errors = error.flatten().fieldErrors;
       res.status(400).json({
@@ -159,16 +161,25 @@ export async function updateRoleController(
   try {
     const role = req.body.role;
     const userId = req.body.userId;
+    const body = req.body;
+    const { success, error, data } = updateRoleSchema.safeParse(body);
+    if (!success) {
+      const errors = error.flatten().fieldErrors;
+      res.status(400).json({
+        message: "Invalid request",
+        data: null,
+        isSuccess: false,
+        errors: errors,
+      });
+      return;
+    }
 
-    const userData = await updateUserRoleservice({
-      userId: userId || "",
-      role: role || "user",
-    });
+    const userData = await updateUserRoleservice(data);
 
     res.status(200).json({
       message: "role has been updated",
       isSuccess: true,
-      data: null,
+      data: userData,
     });
   } catch (e) {
     if (e instanceof APIError) {

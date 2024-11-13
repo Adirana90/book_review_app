@@ -8,6 +8,7 @@ import {
   getBookByIdService,
   updateBookServices,
 } from "./service";
+import { getReviewsByBookIdService } from "../review/service";
 
 export async function addBookController(
   req: Request,
@@ -90,10 +91,11 @@ export async function getBookByIdController(
     }
 
     const result = await getBookByIdService(id);
+    const review = await getReviewsByBookIdService(id);
 
     res.status(200).json({
       message: "book found successfully",
-      data: result,
+      data: { result, review },
       isSuccess: true,
     });
   } catch (e) {

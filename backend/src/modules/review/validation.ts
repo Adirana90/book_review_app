@@ -19,4 +19,5 @@ export type TreviewUserSchema = z.TypeOf<typeof reviewUserSchema>;
 export type TReviewCtx = {
   userId: string;
   bookId: string;
+  userRole?: string;
 };

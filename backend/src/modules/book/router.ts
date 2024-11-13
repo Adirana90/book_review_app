@@ -7,6 +7,7 @@ import {
   updateBookController,
 } from "./controller";
 import { checkAuth, permitAdmin } from "../middleware";
+import { getReviewsByBookIdController } from "../review/controller";
 
 function createBookRouter() {
   const router = Router();

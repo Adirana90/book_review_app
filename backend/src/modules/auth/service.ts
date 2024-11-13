@@ -1,7 +1,11 @@
 import { comparePassword, generateToken, hashPassword } from "../../utils/auth";
 import { APIError } from "../../utils/error";
 import { UserModel } from "./model";
-import { TuserLoginSchema, TuserRegisterSchema } from "./validation";
+import {
+  TupdateRoleSchema,
+  TuserLoginSchema,
+  TuserRegisterSchema,
+} from "./validation";
 
 export async function createUserservice(input: TuserRegisterSchema) {
   const { email, username, password, role } = input;
@@ -66,10 +70,7 @@ export async function getUserById(id: string) {
   return user;
 }
 
-export async function updateUserRoleservice(input: {
-  role: string;
-  userId: string;
-}) {
+export async function updateUserRoleservice(input: TupdateRoleSchema) {
   const { role, userId } = input;
 
   const user = await UserModel.findOne({ _id: userId });

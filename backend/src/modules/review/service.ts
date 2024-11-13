@@ -52,7 +52,7 @@ export async function deleteReviewServices(_id: string, ctx: TReviewCtx) {
   }
 
   // check whether the review belong to the user
-  if (review.userId?.toString() !== ctx.userId) {
+  if (review.userId?.toString() !== ctx.userId && ctx.userRole === "user") {
     throw APIError.unauthorized(
       "You can't delete this review, you are not auhtorized"
     );
