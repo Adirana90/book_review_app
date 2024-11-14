@@ -1,8 +1,10 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   addBook,
+  getAllBook,
   TaddBookInput,
   TaddBookOutput,
+  TGetAllBooksOutput,
   TUpdateBookInput,
   TUpdateBookOutput,
   updateBook,
@@ -18,7 +20,7 @@ export const useAddBookMutation = () => {
   });
 };
 
-export function useUpdateBookMutation() {
+export const useUpdateBookMutation = () => {
   const queryClient = useQueryClient();
   return useMutation<TUpdateBookOutput, Error, TUpdateBookInput>({
     mutationFn: updateBook,
@@ -26,4 +28,11 @@ export function useUpdateBookMutation() {
       queryClient.invalidateQueries({ queryKey: ["books"] });
     },
   });
-}
+};
+
+export const useGetAllBookQuery = () => {
+  return useQuery<TGetAllBooksOutput, Error>({
+    queryKey: ["book"],
+    queryFn: getAllBook,
+  });
+};

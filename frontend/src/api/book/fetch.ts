@@ -66,17 +66,42 @@ export async function updateBook(
   input: TUpdateBookInput
 ): Promise<TUpdateBookOutput> {
   const res = await fetch(`${env.BACKEND_URL}/api/books/${input.bookId}`, {
-    method: "PUT",
+    method: "POST",
     credentials: "include",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(input),
   });
+
   const data = await res.json();
+
   if (!res.ok) {
     throw new Error(data.message);
   }
 
+  return data;
+}
+
+export type TGetAllBooksOutput = {
+  message: string;
+  isSuccess: boolean;
+  data: TBook[];
+};
+
+export async function getAllBook(): Promise<TGetAllBooksOutput> {
+  const res = await fetch(`${env.BACKEND_URL}/api/books/`, {
+    method: "GET",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(data.message);
+  }
   return data;
 }

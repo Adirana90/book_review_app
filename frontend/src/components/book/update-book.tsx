@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
+import { useUpdateBookMutation } from "../../api/book/query";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { errorToast, successToast } from "../toaster";
 import { Fragment, useState } from "react";
 import {
@@ -10,9 +11,8 @@ import {
   Transition,
   TransitionChild,
 } from "@headlessui/react";
-import { useAddBookMutation } from "../../api/book/query";
 
-const createBookSchema = z.object({
+const updateBookSchema = z.object({
   title: z.string().min(1),
   author: z.string().min(1),
   genres: z.string().min(1),
@@ -20,9 +20,9 @@ const createBookSchema = z.object({
   published_at: z.string(),
 });
 
-export const CreateBook = () => {
+export const UpdateBook = ({ bookId }: { bookId: string }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const addBookMutation = useAddBookMutation();
+  const updateBookMutation = useUpdateBookMutation();
 
   const {
     register,
@@ -38,13 +38,15 @@ export const CreateBook = () => {
       description: "",
       published_at: "",
     },
-    resolver: zodResolver(createBookSchema),
+    resolver: zodResolver(updateBookSchema),
   });
+  console.log("error", errors);
 
-  const onSubmit: SubmitHandler<z.infer<typeof createBookSchema>> = (data) => {
+  const onSubmit: SubmitHandler<z.infer<typeof updateBookSchema>> = (data) => {
     try {
-      addBookMutation.mutateAsync(
+      updateBookMutation.mutateAsync(
         {
+          bookId: bookId,
           title: data.title,
           author: data.author,
           genres: data.genres,
@@ -53,7 +55,7 @@ export const CreateBook = () => {
         },
         {
           onSuccess() {
-            successToast("book created successfully");
+            successToast("book update successfully");
             reset();
             setIsOpen(false);
           },
@@ -68,12 +70,7 @@ export const CreateBook = () => {
       errorToast("something went wrong");
     }
   };
-  //   const openModal = () => {
-  //     setIsOpen(true);
-  //   };
-  //   const closeModal = () => {
-  //     setIsOpen(false);
-  //   };
+
   return (
     <>
       <button
@@ -81,7 +78,7 @@ export const CreateBook = () => {
         onClick={() => setIsOpen(true)}
         className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
       >
-        Create Book
+        Update Book
       </button>
 
       <Transition appear show={isOpen} as={Fragment}>
@@ -118,7 +115,7 @@ export const CreateBook = () => {
                     as="h3"
                     className="text-lg font-medium leading-6 text-gray-900 flex justify-between items-center"
                   >
-                    Create New Book
+                    Update Book
                     <button
                       onClick={() => setIsOpen(false)}
                       className="text-gray-400 hover:text-gray-500"
@@ -229,7 +226,7 @@ export const CreateBook = () => {
                         type="submit"
                         className="inline-flex justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                       >
-                        Create Book
+                        Update Book
                       </button>
                     </div>
                   </form>
