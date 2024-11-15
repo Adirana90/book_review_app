@@ -1,4 +1,6 @@
 import { useGetAllBookQuery } from "../../api/book/query";
+import { ReviewSubmit } from "../review/submit-review";
+import { DeleteBook } from "./delete-book";
 import { UpdateBook } from "./update-book";
 
 export const ListBook = () => {
@@ -32,8 +34,16 @@ export const ListBook = () => {
             <p className="text-base text-gray-700 mb-4 line-clamp-3">
               {book.description}
             </p>
-            <div>
-              <UpdateBook bookId={book._id} />
+            <div className="flex justify-between">
+              <div>
+                <UpdateBook book={book} />
+              </div>
+              <div>
+                <DeleteBook bookId={book._id} />
+              </div>
+              <div>
+                <ReviewSubmit book={book} />
+              </div>
             </div>
           </div>
         ))}

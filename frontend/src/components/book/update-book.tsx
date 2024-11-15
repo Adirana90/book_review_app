@@ -11,6 +11,7 @@ import {
   Transition,
   TransitionChild,
 } from "@headlessui/react";
+import { TBook } from "../../api/book/fetch";
 
 const updateBookSchema = z.object({
   title: z.string().min(1),
@@ -20,7 +21,7 @@ const updateBookSchema = z.object({
   published_at: z.string(),
 });
 
-export const UpdateBook = ({ bookId }: { bookId: string }) => {
+export const UpdateBook = ({ book }: { book: TBook }) => {
   const [isOpen, setIsOpen] = useState(false);
   const updateBookMutation = useUpdateBookMutation();
 
@@ -32,21 +33,20 @@ export const UpdateBook = ({ bookId }: { bookId: string }) => {
   } = useForm({
     mode: "all",
     defaultValues: {
-      title: "",
-      author: "",
-      genres: "",
-      description: "",
-      published_at: "",
+      title: book.title,
+      author: book.author,
+      genres: book.genres,
+      description: book.description,
+      published_at: book.published_at,
     },
     resolver: zodResolver(updateBookSchema),
   });
-  console.log("error", errors);
 
   const onSubmit: SubmitHandler<z.infer<typeof updateBookSchema>> = (data) => {
     try {
       updateBookMutation.mutateAsync(
         {
-          bookId: bookId,
+          bookId: book._id,
           title: data.title,
           author: data.author,
           genres: data.genres,
@@ -58,6 +58,7 @@ export const UpdateBook = ({ bookId }: { bookId: string }) => {
             successToast("book update successfully");
             reset();
             setIsOpen(false);
+            location.reload();
           },
           onError(error) {
             console.error("error", error);
@@ -76,7 +77,7 @@ export const UpdateBook = ({ bookId }: { bookId: string }) => {
       <button
         type="button"
         onClick={() => setIsOpen(true)}
-        className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+        className="px-5 py-2.5 font-medium bg-blue-50 hover:bg-blue-100 hover:text-blue-600 text-blue-500 rounded-lg text-sm"
       >
         Update Book
       </button>

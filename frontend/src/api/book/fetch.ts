@@ -105,3 +105,31 @@ export async function getAllBook(): Promise<TGetAllBooksOutput> {
   }
   return data;
 }
+
+export type TDeleteBookInput = {
+  bookId: string;
+};
+
+export type TDeleteBookOutput = {
+  message: string;
+  isSuccess: boolean;
+};
+
+export async function deleteBook(
+  input: TDeleteBookInput
+): Promise<TDeleteBookOutput> {
+  const res = await fetch(`${env.BACKEND_URL}/api/books/${input.bookId}`, {
+    method: "DELETE",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const data = await res.json();
+  if (!res.ok) {
+    throw new Error(data.message);
+  }
+
+  return data;
+}

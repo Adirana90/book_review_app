@@ -3,10 +3,10 @@ import { User } from "../components/auth/user";
 
 export const HomePage = () => {
   return (
-    <AppShell>
-      <div className="">
+    <div className="">
+      <AppShell>
         <User />
-      </div>
-    </AppShell>
+      </AppShell>
+    </div>
   );
 };
