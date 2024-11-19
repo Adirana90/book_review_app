@@ -104,7 +104,7 @@ export const LoginForm = () => {
               </button>
             </div>
           </form>
-          <p className="">
+          <p className="mt-2 text-center">
             Don't have an account?{" "}
             <Link to="/register" className="text-blue-600">
               Sign Up

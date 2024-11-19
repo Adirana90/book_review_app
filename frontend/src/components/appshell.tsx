@@ -33,7 +33,7 @@ export function AppShell({ children }: AppShellProps) {
   const location = useLocation();
 
   return (
-    <div className="bg-gradient-to-br from-[#F3EEEA] to-[#EBE3D5] min-h-screen flex flex-col">
+    <div className="bg-gradient-to-br from-[#E7D4B5] to-[#EBE3D5] min-h-screen flex flex-col">
       <Disclosure as="nav" className="bg-[#A0937D] shadow-lg">
         {({ open }) => (
           <>
@@ -42,8 +42,8 @@ export function AppShell({ children }: AppShellProps) {
                 <div className="flex items-center">
                   <Link to="/" className="flex-shrink-0">
                     <img
-                      className="h-8 w-auto rounded-full"
-                      src="/placeholder.svg?height=32&width=32"
+                      className="h-16 w-auto rounded-full"
+                      src="../../../public/logo.png"
                       alt="Your App"
                     />
                   </Link>
@@ -93,7 +93,7 @@ export function AppShell({ children }: AppShellProps) {
                       >
                         <MenuItems className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                           <MenuItem>
-                            <a className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-custom-bg-light hover:text-white">
+                            <a className="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-[#242324] hover:text-white">
                               <Logout />
                             </a>
                           </MenuItem>
@@ -103,7 +103,7 @@ export function AppShell({ children }: AppShellProps) {
                   </div>
                 </div>
                 <div className="-mr-2 flex md:hidden">
-                  <DisclosureButton className="inline-flex items-center justify-center rounded-md bg-custom-bg p-2 text-gray-400 hover:bg-custom-bg-dark hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-custom-bg-dark">
+                  <DisclosureButton className="inline-flex items-center justify-center rounded-md bg-[#D6C0B3] p-2 text-black hover:bg-[#B17457] hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-[#B17457]">
                     <span className="sr-only">Open main menu</span>
                     {open ? (
                       <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
@@ -124,8 +124,8 @@ export function AppShell({ children }: AppShellProps) {
                     to={item.href}
                     className={clsx(
                       location.pathname === item.href
-                        ? "bg-custom-bg text-white"
-                        : "text-gray-300 hover:bg-custom-bg-light hover:text-white",
+                        ? "bg-[#B6C7AA] text-white"
+                        : "text-black",
                       "block rounded-md px-3 py-2 text-base font-medium"
                     )}
                     aria-current={
@@ -136,7 +136,7 @@ export function AppShell({ children }: AppShellProps) {
                   </DisclosureButton>
                 ))}
               </div>
-              <div className="border-t border-custom-bg-light pb-3 pt-4">
+              <div className="border-t border-[#3C3D37] pb-3 pt-4">
                 <div className="flex items-center px-5">
                   <div className="flex-shrink-0">
                     <UserCircleIcon
@@ -157,7 +157,7 @@ export function AppShell({ children }: AppShellProps) {
                   <DisclosureButton
                     as="a"
                     href="#"
-                    className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-custom-bg-light hover:text-white"
+                    className="block rounded-md px-3 py-2 text-base font-medium text-black"
                     onClick={() => {
                       console.log("Logout clicked");
                       // Add logout logic here
@@ -177,14 +177,18 @@ export function AppShell({ children }: AppShellProps) {
         <Toaster />
       </main>
 
-      <footer className="bg-custom-bg-dark text-white shadow-inner mt-auto">
+      <footer className="bg-[#B6C7AA] text-white shadow-inner mt-auto">
         <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 flex justify-between items-center">
           <div>
-            <h2 className="text-lg font-bold">Your App Name</h2>
-            <p className="text-sm">A brief description of your application.</p>
+            <h2 className="text-lg font-bold text-black">The Book Shelf</h2>
+            <p className="text-sm text-black">
+              Find new and classic book all in one place.
+            </p>
           </div>
           <div>
-            <p className="text-sm">© 2024 Your Name. All rights reserved.</p>
+            <p className="text-sm text-black">
+              © 2024 The Book Shelf. All rights reserved.
+            </p>
           </div>
         </div>
       </footer>

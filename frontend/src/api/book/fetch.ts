@@ -133,3 +133,32 @@ export async function deleteBook(
 
   return data;
 }
+
+export type TGetBookByIdInput = {
+  bookId: string;
+};
+
+export type TGetBookByIdOutput = {
+  message: string;
+  isSuccess: boolean;
+  data: TBook[];
+};
+
+export async function getBookById(
+  input: TGetBookByIdInput
+): Promise<TGetBookByIdOutput> {
+  const res = await fetch(`${env.BACKEND_URL}/api/books/${input.bookId}`, {
+    method: "GET",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const data = await res.json();
+  if (!res.ok) {
+    throw new Error(data.message);
+  }
+
+  return data;
+}

@@ -3,11 +3,14 @@ import {
   addBook,
   deleteBook,
   getAllBook,
+  getBookById,
   TaddBookInput,
   TaddBookOutput,
   TDeleteBookInput,
   TDeleteBookOutput,
   TGetAllBooksOutput,
+  TGetBookByIdInput,
+  TGetBookByIdOutput,
   TUpdateBookInput,
   TUpdateBookOutput,
   updateBook,
@@ -49,3 +52,10 @@ export const useGetAllBookQuery = () => {
     queryFn: getAllBook,
   });
 };
+
+export function useGetBookByIdQuery(id: string) {
+  return useQuery<TGetBookByIdOutput, Error, TGetBookByIdInput>({
+    queryKey: ["books", id],
+    queryFn: () => getBookById({ bookId: id }),
+  });
+}

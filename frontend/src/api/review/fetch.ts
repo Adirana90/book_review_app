@@ -1,6 +1,7 @@
 import { env } from "../../config";
 
 export type TReview = {
+  username: string;
   user: string;
   _id: string;
   rating: number;

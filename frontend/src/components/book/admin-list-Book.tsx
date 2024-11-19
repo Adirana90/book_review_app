@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
 import { useGetAllBookQuery } from "../../api/book/query";
 import { ReviewSubmit } from "../review/submit-review";
-import { ListDetailBook } from "./list-detail-book";
+import { DeleteBook } from "./delete-book";
+import { UpdateBook } from "./update-book";
 // import { ListDetailBook } from "./list-detail-book";
 
-export const ListBook = () => {
+export const AdminListBook = () => {
   const { isLoading, data, isError, error } = useGetAllBookQuery();
 
   if (isLoading) {
@@ -25,6 +26,7 @@ export const ListBook = () => {
             key={book._id}
           >
             <Link to={`/books/${book._id}`}>
+              {/* <ListDetailBook /> */}
               <h2 className="text-2xl font-bold text-gray-800 mb-2">
                 {book.title}
               </h2>
@@ -39,10 +41,13 @@ export const ListBook = () => {
             </Link>
             <div className="flex justify-between">
               <div>
-                <ReviewSubmit book={book} />
+                <UpdateBook book={book} />
               </div>
               <div>
-                <ListDetailBook bookId={book._id} />
+                <DeleteBook bookId={book._id} />
+              </div>
+              <div>
+                <ReviewSubmit book={book} />
               </div>
             </div>
           </div>
