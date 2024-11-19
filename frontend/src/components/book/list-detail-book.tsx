@@ -22,7 +22,7 @@ export const ListDetailBook = ({ bookId }: { bookId: string }) => {
     return <div>No book data available.</div>;
   }
 
-  const book = data?.data; // Access the book directly here
+  const book = data?.data || []; // Access the book directly here
 
   return (
     <>

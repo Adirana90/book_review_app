@@ -9,7 +9,7 @@ import {
   TDeleteBookInput,
   TDeleteBookOutput,
   TGetAllBooksOutput,
-  TGetBookByIdInput,
+  //   TGetBookByIdInput,
   TGetBookByIdOutput,
   TUpdateBookInput,
   TUpdateBookOutput,
@@ -54,7 +54,7 @@ export const useGetAllBookQuery = () => {
 };
 
 export function useGetBookByIdQuery(id: string) {
-  return useQuery<TGetBookByIdOutput, Error, TGetBookByIdInput>({
+  return useQuery<TGetBookByIdOutput, Error, TGetBookByIdOutput>({
     queryKey: ["books", id],
     queryFn: () => getBookById({ bookId: id }),
   });

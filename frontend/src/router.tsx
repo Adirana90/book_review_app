@@ -24,6 +24,7 @@ const router = createBrowserRouter([
     path: "/dashboard",
     element: <DashboardPage />,
   },
+  {},
 ]);
 
 export function RouterProvider() {

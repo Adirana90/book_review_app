@@ -136,12 +136,13 @@ export async function deleteBook(
 
 export type TGetBookByIdInput = {
   bookId: string;
+  //   data?: string;
 };
 
 export type TGetBookByIdOutput = {
   message: string;
   isSuccess: boolean;
-  data: TBook[];
+  data: TBook;
 };
 
 export async function getBookById(
