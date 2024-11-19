@@ -20,9 +20,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173, https://book-review-app-y2tw.onrender.com",
-    ], // ACCESS-CONTROL-ALLOW-ORIGIN:http://localhost:5173
+    origin: ["http://localhost:5173, https://book-review-app-rho.vercel.app"], // ACCESS-CONTROL-ALLOW-ORIGIN:http://localhost:5173
     credentials: true, // Access-Control-Allow-Credentials: allow
   })
 );
