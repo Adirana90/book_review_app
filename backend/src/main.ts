@@ -21,7 +21,7 @@ const app = express();
 app.use(
   cors({
     origin: [
-      "https://book-review-app-7wk9-fh7jnbq1d-aadddiiiis-projects.vercel.app/",
+      "http://localhost:5173, https://book-review-app-y2tw.onrender.com",
     ], // ACCESS-CONTROL-ALLOW-ORIGIN:http://localhost:5173
     credentials: true, // Access-Control-Allow-Credentials: allow
   })
